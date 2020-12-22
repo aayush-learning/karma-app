@@ -1,0 +1,15 @@
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+const Context = React.createContext();
+
+export const ThemeContextProvider = (props) => {
+  const [theme, setTheme] = useState('Light');
+  return <Context.Provider value={{ theme, setTheme }}>{props.children}</Context.Provider>;
+};
+ThemeContextProvider.defaultProps = {
+  children: {},
+};
+ThemeContextProvider.propTypes = { children: PropTypes.node };
+
+export const ThemeContext = Context;
