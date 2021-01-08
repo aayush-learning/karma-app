@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -28,10 +28,17 @@ const styles = StyleSheet.create({
 });
 
 const Ticker = () => {
+  const [config, setConfig] = useState([]);
   const callfunc = (index) => {
     // setMyConfig(cardConfig);
     alert(index);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setConfig(cardConfig);
+    }, 1000);
+  }, []);
 
   const renderItems = (item, index) => {
     return (
@@ -61,7 +68,7 @@ const Ticker = () => {
         horizontal
         contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
         keyExtractor={(item, index) => index.toString()}
-        data={cardConfig}
+        data={config}
         bounces={false}
         overScrollMode="never"
         renderItem={({ item, index }) => renderItems(item, index)}

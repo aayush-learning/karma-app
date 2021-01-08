@@ -14,6 +14,7 @@ const WishList = (props) => {
     <View style={{ flex: 1 }}>
       <AutoSearch
         searchCb={() => {}}
+        selectedCb={() => {}}
         listOfItems={[
           'ahjhj',
           'b',

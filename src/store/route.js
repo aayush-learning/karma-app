@@ -6,6 +6,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ProfileStack from '../screens/myProfile/profileNavigator';
 import LoginStack from '../screens/login/loginNavigator';
 import PopularityStack from '../screens/popularityIndex/popularityIndex.navigator';
+import LeaderBoardStack from '../screens/leaderBoard/LeaderBoard.navigator';
+import MovementForm from '../screens/movement/MovementForm'; // TODO remove the import too.
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +24,7 @@ const getTabScreen = (tabName) => {
         <Tab.Screen
           key={tabName}
           name="LeaderBoard"
-          component={sampleComponent}
+          component={LeaderBoardStack}
           options={{
             tabBarLabel: 'LeaderBoard',
             tabBarIcon: () => <MaterialCommunityIcons name="chevron-triple-up" size={24} color="#000" />,

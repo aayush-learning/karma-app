@@ -53,10 +53,6 @@ const Data = [
   },
 ];
 
-// const evenNumber = (num) => {
-//   if()
-// }
-
 const PortfolioTable = () => {
   return (
     <View>

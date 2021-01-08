@@ -1,7 +1,7 @@
 import { FAILURE, SUCCESS, GET_CELEBRITY_STOCK_LIST_REQUEST, LOADING } from './actions';
 
 const intialState = {
-  stockListData: {},
+  stockListData: [],
   userError: {},
   loading: false,
 };

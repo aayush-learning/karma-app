@@ -36,10 +36,23 @@ const Marquee = ({ children, duration, delay }) => {
       })
     ).start();
   }
+  // if data gets updated on the list
+  function measureContentView(event) {
+    const { width, x } = event.nativeEvent.layout;
+    if (!containerWidth.current || width === contentWidth.current) return;
+    offsetX.current.stopAnimation();
+    offsetX.current.setValue(0);
+    offsetX.current.setOffset(0);
+    if (width > containerWidth.current - 50) {
+      setIsStartAnimation(true);
+      checkContent(width);
+    }
+  }
 
   const childrenProps = children.props;
   const childrenWithProps = React.cloneElement(children, {
     ...childrenProps,
+    onLayout: measureContentView,
     // eslint-disable-next-line no-return-assign
     ref: (ref) => (contentRef = ref),
   });

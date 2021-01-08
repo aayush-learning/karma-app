@@ -7,13 +7,14 @@ import Width from '../../asset/Contants/Width';
 import Font from '../../asset/Font/Font';
 import { normalize } from '../../Utils/utils';
 
-const BuyModal = ({ onRequestClose = () => {}, modalVisible = false }) => {
-  const [value, setValue] = useState('');
+const BuyModal = ({ onRequestClose = () => {}, modalVisible = false, modelType = '' }) => {
+  const [quantity, setQuantity] = useState('');
+  const [price, setPrice] = useState('');
   const [selectedValue, setSelectedValue] = useState('Market');
 
-  const onChangeText = (val) => {
-    setValue(val);
-  };
+  const onQantityChange = (val) => setQuantity(val);
+
+  const onPriceChange = (val) => setPrice(val);
 
   const onBuyClicked = () => {
     onRequestClose();
@@ -59,8 +60,8 @@ const BuyModal = ({ onRequestClose = () => {}, modalVisible = false }) => {
                   <View style={{ width: Width['40w'] }}>
                     <TextInput
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1, borderRadius: 4 }}
-                      onChangeText={(text) => onChangeText(text)}
-                      value={value}
+                      onChangeText={(text) => onQantityChange(text)}
+                      value={quantity}
                     />
                   </View>
                 </View>
@@ -87,8 +88,8 @@ const BuyModal = ({ onRequestClose = () => {}, modalVisible = false }) => {
                   <View style={{ width: Width['40w'] }}>
                     <TextInput
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1, borderRadius: 4 }}
-                      onChangeText={(text) => onChangeText(text)}
-                      value={value}
+                      onChangeText={(text) => onPriceChange(text)}
+                      value={price}
                     />
                   </View>
                 </View>
@@ -99,7 +100,7 @@ const BuyModal = ({ onRequestClose = () => {}, modalVisible = false }) => {
                 <Text style={styles.cancelBtnStyle}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={onBuyClicked} style={styles.buyButton}>
-                <Text style={styles.buyBtnStyles}>Buy</Text>
+                <Text style={styles.buyBtnStyles}>{modelType}</Text>
               </TouchableOpacity>
             </View>
           </View>

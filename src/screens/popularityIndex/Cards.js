@@ -1,24 +1,27 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableHighlight, TouchableOpacity, StatusBar, Image } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CelebrityStockCards from './CelebrityStockCards';
 import { cardConfig } from './CelebrityConfig';
 import BuyModal from './BuyModal';
 
-const StockCardsScreen = ({ navigation }) => {
+const StockCardsScreen = ({ navigation, stockListData = [] }) => {
   const rowMapRef = useRef(null);
   const [openBuyModal, setOpenBuyModal] = useState(false);
-  const [listData, setListData] = useState(cardConfig.map((item, index) => ({ key: `${index}`, ...item })));
+  const [buySellModal, setBuySellModal] = useState('');
 
   const onOwnEvent = (rowMap, rowKey) => {
     setOpenBuyModal(true);
+    setBuySellModal('Buy');
   };
 
   const onDumpEvent = (rowMap, rowKey) => {
-    alert('DUMP');
+    setOpenBuyModal(true);
+    setBuySellModal('Sell');
   };
+
+  const onRequestClose = () => setOpenBuyModal(false);
 
   const setRef = (rowMap) => () => {
     if (!rowMapRef.current && Object.keys(rowMap).length > 0) {
@@ -37,10 +40,6 @@ const StockCardsScreen = ({ navigation }) => {
     }
   };
 
-  const onRequestClose = () => {
-    setOpenBuyModal(false);
-  };
-
   const renderItem = (data, rowMap) => {
     return <CelebrityStockCards data={data} rowMap={rowMap} ref={setRef(rowMap)} />;
   };
@@ -50,7 +49,9 @@ const StockCardsScreen = ({ navigation }) => {
 
     return (
       <Animated.View style={[styles.rowBack]}>
-        {openBuyModal && <BuyModal modalVisible={openBuyModal} onRequestClose={onRequestClose} />}
+        {openBuyModal && (
+          <BuyModal modalVisible={openBuyModal} onRequestClose={onRequestClose} modelType={buySellModal} />
+        )}
         <TouchableOpacity style={[styles.backBtn, styles.backLeftBtn]} onPress={onOwnEvent}>
           <Animated.View
             style={[
@@ -108,7 +109,7 @@ const StockCardsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SwipeListView
-        data={listData}
+        data={stockListData}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={100}

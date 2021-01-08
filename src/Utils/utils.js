@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
-import { Dimensions, BackHandler } from 'react-native';
+import { Dimensions, BackHandler, Platform, PermissionsAndroid, ToastAndroid } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import ImageResizer from 'react-native-image-resizer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import colors from '../asset/Color/Color';
 
 const { width } = Dimensions.get('window');
 
@@ -86,3 +89,67 @@ export const createCustomTopTabs = ({
 
 const scale = (size) => (width / 340) * size;
 export const normalize = (size, factor = 0.15) => size + (scale(size) - size) * factor;
+
+export const formatNumber = (n) => {
+  if (n < 1e3) return n;
+  if (n >= 1e3 && n < 1e6) return `${+(n / 1e3).toFixed(1)}K`;
+  if (n >= 1e6 && n < 1e9) return `${+(n / 1e6).toFixed(1)}M`;
+  if (n >= 1e9 && n < 1e12) return `${+(n / 1e9).toFixed(1)}B`;
+  if (n >= 1e12) return `${+(n / 1e12).toFixed(1)}T`;
+};
+
+export async function resize(uri) {
+  // console.log(uri);
+  const temp = await ImageResizer.createResizedImage(uri, 480, 480, 'JPEG', 80);
+  return temp;
+}
+
+async function requestCameraPermission(cropHeader) {
+  try {
+    const granted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      return await ImagePicker.openCamera({
+        mediaType: 'photo',
+        multiple: false,
+        cropping: true,
+        height: 720,
+        width: 1440,
+        cropperToolbarTitle: cropHeader || 'Crop Image',
+        freeStyleCropEnabled: true,
+        includeBase64: true,
+        cropperActiveWidgetColor: colors.themeColor,
+        cropperStatusBarColor: colors.themeColor,
+        cropperToolbarColor: colors.themeColor,
+        hideBottomControls: true,
+      });
+    }
+    const granted1 = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+    if (granted1 === PermissionsAndroid.RESULTS.GRANTED) {
+      return await ImagePicker.openCamera({
+        mediaType: 'photo',
+        multiple: false,
+        cropping: true,
+        height: 720,
+        width: 1440,
+        cropperToolbarTitle: cropHeader || 'Crop Image',
+        freeStyleCropEnabled: true,
+        includeBase64: true,
+        cropperActiveWidgetColor: colors.themeColor,
+        cropperStatusBarColor: colors.themeColor,
+        cropperToolbarColor: colors.themeColor,
+        hideBottomControls: true,
+      });
+    }
+    if (granted1 === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      ToastAndroid.show('Please enable camera permission for this app from the app settings', ToastAndroid.SHORT);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const openCamera = async (cropHeader) => {
+  if (Platform.OS === 'android') {
+    return await requestCameraPermission(cropHeader);
+  }
+};

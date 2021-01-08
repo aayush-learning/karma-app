@@ -2,6 +2,7 @@ import React, { useContext, useState, memo } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
+import { debounce, isEmpty } from 'lodash';
 import { ThemeContext } from '../modules/Theme/themeContext';
 import { useEffectAtEveryChange } from '../Utils/utils';
 
@@ -13,18 +14,21 @@ const AutoSearch = ({ width, height, searchCb, selectedCb, listOfItems, ...props
   const { theme } = useContext(ThemeContext);
   const [searchText, setSearchString] = useState('');
   const [matchingTextList, setMatchingTextList] = useState([]);
+  const [showList, setShowList] = useState(false);
 
   useEffectAtEveryChange(() => {
     setMatchingTextList(listOfItems);
   }, [listOfItems]);
 
   const searchEnteredText = (value) => {
-    searchCb(value);
+    debounce(searchCb(value), 1000);
+    setShowList(true);
     setSearchString(value);
   };
 
   const selectText = (value) => {
     selectedCb(value);
+    setShowList(false);
     setSearchString(value);
   };
 
@@ -39,23 +43,24 @@ const AutoSearch = ({ width, height, searchCb, selectedCb, listOfItems, ...props
         onChangeText={(value) => searchEnteredText(value)}
       />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{}}>
-        {matchingTextList.map((item, index) => (
-          <TouchableOpacity
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
-            onPress={() => selectText(item)}
-            style={{
-              backgroundColor: 'grey',
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingHorizontal: 10,
-              paddingVertical: 5,
-              marginVertical: 1,
-            }}
-          >
-            <Text>{item}</Text>
-          </TouchableOpacity>
-        ))}
+        {showList &&
+          matchingTextList.map((item, index) => (
+            <TouchableOpacity
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+              onPress={() => selectText(item)}
+              style={{
+                backgroundColor: 'grey',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                marginVertical: 1,
+              }}
+            >
+              <Text>{item}</Text>
+            </TouchableOpacity>
+          ))}
       </ScrollView>
     </View>
   );
