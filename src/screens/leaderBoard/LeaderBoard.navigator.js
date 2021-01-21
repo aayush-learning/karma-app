@@ -1,9 +1,9 @@
-import LeaderBoardContests from './LeaderBoard';
+import LeaderBoard from './LeaderBoard';
 import { createCustomScreenStack } from '../../Utils/utils';
 import LeaderBoardRankScreen from './LeaderBoardRankScreen';
 
 const LeaderBoardStackScreens = {
-  LeaderBoardContests: LeaderBoardContests,
+  LeaderBoardContests: LeaderBoard,
   LeaderBoardRankScreen: LeaderBoardRankScreen,
 };
 

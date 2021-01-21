@@ -10,7 +10,7 @@ import { Color, Font } from '../../asset';
 const ranks = [1, 2, 3, 4];
 const LeaderBoardRankScreen = ({ navigation }) => {
   const onBackEvent = () => {
-    navigation.pop();
+    navigation.goBack();
   };
   return (
     <View style={{ backgroundColor: Color.bgWhite, flex: 1 }}>
@@ -37,7 +37,7 @@ const LeaderBoardRankScreen = ({ navigation }) => {
 LeaderBoardRankScreen.defaultProps = {};
 LeaderBoardRankScreen.propTypes = {
   navigation: PropTypes.shape({
-    pop: PropTypes.func,
+    goBack: PropTypes.func,
   }).isRequired,
 };
 

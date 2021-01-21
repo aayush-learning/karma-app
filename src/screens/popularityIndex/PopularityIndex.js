@@ -1,20 +1,25 @@
 import React, { useEffect } from 'react';
-import { Text, View, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { ScrollView } from 'react-native-gesture-handler';
 import Marquee from '../../commonComponents/Marquee';
 import Cards from './Cards';
-import Header from './Header';
 import StoreProfessionFilter from './storeProfessionFilter';
-import { getCelebrityStockList } from './redux/actions';
+import { getCelebrityStockList, getCelebrityStockCetgories, showBuySellModal } from './redux/popularityIndex.actions';
 import Ticker from './Ticker';
 
 const PopularityIndex = (props) => {
-  const { getCelebrityStockList, stockListData } = props;
+  const {
+    getCelebrityStockList,
+    stockListData,
+    getCelebrityStockCetgories,
+    stockCategoryFilters,
+    stockDataLoading,
+    showBuySellModal,
+  } = props;
 
   useEffect(() => {
-    getCelebrityStockList(1);
-  }, [getCelebrityStockList]);
+    getCelebrityStockCetgories(true);
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white', marginHorizontal: 5 }}>
@@ -26,20 +31,28 @@ const PopularityIndex = (props) => {
         </Marquee>
       </View>
 
-      <StoreProfessionFilter />
+      <StoreProfessionFilter
+        stockCategoryFilters={stockCategoryFilters}
+        getCelebrityStockList={getCelebrityStockList}
+      />
 
       {/* <Header /> */}
-      <Cards stockListData={stockListData} />
+      {stockDataLoading ? (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <ActivityIndicator size="large" color="red" />
+        </View>
+      ) : (
+        <Cards stockListData={stockListData} showBuySellModal={showBuySellModal} />
+      )}
     </View>
   );
 };
 
 const mapStateToProps = (reduxState) => ({
   stockListData: reduxState.PopularityIndexReducer.stockListData.map((item, index) => ({ key: `${index}`, ...item })),
+  stockCategoryFilters: reduxState.PopularityIndexReducer.stockCategories,
+  stockDataLoading: reduxState.PopularityIndexReducer.stockDataLoading,
 });
-const mapDispatchToProps = { getCelebrityStockList };
+const mapDispatchToProps = { getCelebrityStockList, getCelebrityStockCetgories, showBuySellModal };
 
-// const mapDispatchToProps = (dispatch) => ({
-//   getCelebrityStockList: (categoryId) => dispatch(getCelebrityStockList(categoryId)),
-// });
 export default connect(mapStateToProps, mapDispatchToProps)(PopularityIndex);

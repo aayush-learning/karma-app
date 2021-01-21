@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
@@ -27,7 +27,10 @@ const TournamentCards = () => {
   );
 };
 
-export default TournamentCards;
+TournamentCards.propTypes = {};
+TournamentCards.defaultProps = {};
+
+export default memo(TournamentCards);
 
 const styles = StyleSheet.create({
   cardsContainer: {

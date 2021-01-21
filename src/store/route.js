@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProfileStack from '../screens/myProfile/profileNavigator';
-import LoginStack from '../screens/login/loginNavigator';
+import LoginStack from '../screens/login/login.navigator';
 import PopularityStack from '../screens/popularityIndex/popularityIndex.navigator';
 import LeaderBoardStack from '../screens/leaderBoard/LeaderBoard.navigator';
 import MovementForm from '../screens/movement/MovementForm'; // TODO remove the import too.
@@ -64,11 +64,11 @@ const getTabScreen = (tabName) => {
         />
       );
 
-    case 'Tranding':
+    case 'Trending':
       return (
         <Tab.Screen
           key={tabName}
-          name="Tranding"
+          name="Trending"
           component={PopularityStack}
           options={{
             tabBarLabel: 'Trending',
@@ -105,7 +105,7 @@ const getTabScreen = (tabName) => {
   }
 };
 
-const activeTab = ['LeaderBoard', 'Tranding', 'Home', 'Search', 'Profile'];
+const activeTab = ['LeaderBoard', 'Trending', 'Home', 'Search', 'Profile'];
 
 const HomeRouteTabs = () => <Tab.Navigator>{activeTab.map((keys) => getTabScreen(keys))}</Tab.Navigator>;
 

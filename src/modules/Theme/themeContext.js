@@ -7,9 +7,7 @@ export const ThemeContextProvider = (props) => {
   const [theme, setTheme] = useState('Light');
   return <Context.Provider value={{ theme, setTheme }}>{props.children}</Context.Provider>;
 };
-ThemeContextProvider.defaultProps = {
-  children: {},
-};
-ThemeContextProvider.propTypes = { children: PropTypes.node };
+ThemeContextProvider.defaultProps = {};
+ThemeContextProvider.propTypes = { children: PropTypes.node.isRequired };
 
 export const ThemeContext = Context;

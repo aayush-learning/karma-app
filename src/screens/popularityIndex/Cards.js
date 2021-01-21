@@ -3,25 +3,23 @@ import { View, Text, StyleSheet, Animated, TouchableHighlight, TouchableOpacity,
 
 import { SwipeListView } from 'react-native-swipe-list-view';
 import CelebrityStockCards from './CelebrityStockCards';
-import { cardConfig } from './CelebrityConfig';
-import BuyModal from './BuyModal';
 
-const StockCardsScreen = ({ navigation, stockListData = [] }) => {
+const StockCardsScreen = ({ navigation, stockListData = [], showBuySellModal }) => {
   const rowMapRef = useRef(null);
-  const [openBuyModal, setOpenBuyModal] = useState(false);
-  const [buySellModal, setBuySellModal] = useState('');
 
   const onOwnEvent = (rowMap, rowKey) => {
-    setOpenBuyModal(true);
-    setBuySellModal('Buy');
+    showBuySellModal({
+      isShowBuySellModal: true,
+      buySellPropsData: { screenShow: 'Buy' },
+    });
   };
 
   const onDumpEvent = (rowMap, rowKey) => {
-    setOpenBuyModal(true);
-    setBuySellModal('Sell');
+    showBuySellModal({
+      isShowBuySellModal: true,
+      buySellPropsData: { screenShow: 'Sell' },
+    });
   };
-
-  const onRequestClose = () => setOpenBuyModal(false);
 
   const setRef = (rowMap) => () => {
     if (!rowMapRef.current && Object.keys(rowMap).length > 0) {
@@ -49,9 +47,6 @@ const StockCardsScreen = ({ navigation, stockListData = [] }) => {
 
     return (
       <Animated.View style={[styles.rowBack]}>
-        {openBuyModal && (
-          <BuyModal modalVisible={openBuyModal} onRequestClose={onRequestClose} modelType={buySellModal} />
-        )}
         <TouchableOpacity style={[styles.backBtn, styles.backLeftBtn]} onPress={onOwnEvent}>
           <Animated.View
             style={[

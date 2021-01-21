@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { connect } from 'react-redux';
 import font from '../../../asset/Font/Font';
 import color from '../../../asset/Color/Color';
 import { normalize } from '../../../Utils/utils';
+import { getMyPortfolio } from '../redux/profile.actions';
 
 const Data = [
   {
@@ -53,7 +55,11 @@ const Data = [
   },
 ];
 
-const PortfolioTable = () => {
+const PortfolioTable = ({ getMyPortfolio = () => {}, myPortfolio = [] }) => {
+  useEffect(() => {
+    getMyPortfolio(7);
+  }, []);
+
   return (
     <View>
       {Data.map((celebsObj) => {
@@ -117,5 +123,11 @@ const PortfolioTable = () => {
     </View>
   );
 };
+const mapStateToProps = (reduxState) => ({
+  myPortfolio: reduxState.profileReducer.myPortfolio,
+});
+// const mapDispatchToProps = (dispatch) => ({
+//   getMyPortfolio: (userId) => dispatch(getMyPortfolio(userId)),
+// });
 
-export default PortfolioTable;
+export default connect(mapStateToProps, { getMyPortfolio })(PortfolioTable);

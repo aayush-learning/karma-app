@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Dimensions, BackHandler, Platform, PermissionsAndroid, ToastAndroid } from 'react-native';
+import { Dimensions, BackHandler, Platform, PermissionsAndroid, ToastAndroid, AppState } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,22 +12,22 @@ const Stack = createStackNavigator();
 
 const TopTabs = createMaterialTopTabNavigator();
 
-export const useEffectOnce = (cb) => {
+export const useAppStateEffect = (handleAppStateCB) => {
   useEffect(() => {
-    cb();
+    AppState.addEventListener('change', handleAppStateCB);
     return () => {
-      console.log('useEffectOnce cleanup');
+      AppState.removeEventListener('change', handleAppStateCB);
     };
-  }, []);
+  }, [handleAppStateCB]);
 };
 
-export const useEffectAtEveryChange = (cb, arg) => {
+export const useEffectAtEveryChange = ({ cb = () => {}, cleanupCb = () => {}, args = [] }) => {
   useEffect(() => {
     cb();
     return () => {
-      console.log('useEffectAtEveryChange cleanup');
+      cleanupCb();
     };
-  }, [...arg]);
+  }, [...args, cb, cleanupCb]);
 };
 
 export const useBackButton = (handler) => {
@@ -149,7 +149,9 @@ async function requestCameraPermission(cropHeader) {
 }
 
 export const openCamera = async (cropHeader) => {
+  const cameraPermission = await requestCameraPermission(cropHeader);
   if (Platform.OS === 'android') {
-    return await requestCameraPermission(cropHeader);
+    return cameraPermission;
   }
+  return null;
 };

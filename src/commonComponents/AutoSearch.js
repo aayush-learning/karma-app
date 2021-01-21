@@ -16,12 +16,15 @@ const AutoSearch = ({ width, height, searchCb, selectedCb, listOfItems, ...props
   const [matchingTextList, setMatchingTextList] = useState([]);
   const [showList, setShowList] = useState(false);
 
-  useEffectAtEveryChange(() => {
-    setMatchingTextList(listOfItems);
-  }, [listOfItems]);
+  useEffectAtEveryChange({
+    cb: () => {
+      setMatchingTextList(listOfItems);
+    },
+    args: [listOfItems],
+  });
 
   const searchEnteredText = (value) => {
-    debounce(searchCb(value), 1000);
+    debounce(() => searchCb(value), 1000);
     setShowList(true);
     setSearchString(value);
   };

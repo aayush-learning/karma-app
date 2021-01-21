@@ -1,26 +1,25 @@
 import React, { useState, useRef } from 'react';
 import { Text, View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
-const configHeader = ['Leader', 'Actor', 'Pro Wrestling', 'Music', 'Fiction', 'aaa', 'vvvvv'];
-
-const StoreProfessionFilter = () => {
+const StoreProfessionFilter = ({ stockCategoryFilters, getCelebrityStockList }) => {
   const [selectedFilter, setSelectedFilter] = useState(0);
   const itemRef = useRef(null);
-  const onItemClick = (index) => {
+  const onItemClick = (item, index) => {
     setSelectedFilter(index);
     if (itemRef) {
-      itemRef.current.scrollToIndex({ index: index, viewOffset: 16, viewPosition: 0.5 });
+      itemRef.current.scrollToIndex({ index: index, viewOffset: 0, viewPosition: 0.5 });
     }
+    getCelebrityStockList(item.id);
   };
   const renderFilterItem = (item, index) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          onItemClick(index);
+          onItemClick(item, index);
         }}
       >
         <View style={[styles.itemStyle, selectedFilter === index ? styles.selectedImage : null]}>
-          <Text style={selectedFilter === index ? { fontWeight: 'bold' } : null}>{item}</Text>
+          <Text style={selectedFilter === index ? { fontWeight: 'bold' } : null}>{item.name}</Text>
           {/* {selectedFilter === index && <View style={styles.selectedItemStyle} /> */}
         </View>
       </TouchableOpacity>
@@ -33,10 +32,9 @@ const StoreProfessionFilter = () => {
         scrollEventThrottle={2000}
         decelerationRate={0.5}
         keyExtractor={(item, index) => index.toString()}
-        data={configHeader}
+        data={stockCategoryFilters}
         bounces={false}
         overScrollMode="never"
-        getItemLayout={(data, index) => ({ length: 50, offset: 50 * index, index })}
         renderItem={({ item, index }) => renderFilterItem(item, index)}
         showsHorizontalScrollIndicator={false}
         onScrollToIndexFailed={() => {}}

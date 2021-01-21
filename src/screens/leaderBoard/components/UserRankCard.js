@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -111,7 +111,7 @@ UserRankCard.propTypes = {
   index: PropTypes.number.isRequired,
 };
 
-export default UserRankCard;
+export default memo(UserRankCard);
 
 const styles = StyleSheet.create({
   cardsContainer: {

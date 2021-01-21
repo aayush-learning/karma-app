@@ -37,8 +37,7 @@ UserProfile.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { counter } = state;
-  return { counter };
+  return {};
 };
 const mapDispatchToProps = {};
 

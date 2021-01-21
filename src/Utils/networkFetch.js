@@ -3,14 +3,14 @@ import axios from 'axios';
 const configuration = {
   headers: {
     'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
+    'x-api-key': 'WGBV0Lp0fZlHLBGx',
   },
 };
 
 const instance = axios.create(configuration);
 
 const requestHandler = (request) => {
-  console.log(request);
+  console.log(request, 'request log from requesthandler');
   return request;
 };
 
@@ -20,18 +20,16 @@ const logApi = (method, url, body = '', response) => {
   // eslint-disable-next-line no-console
   console.log(`${method} URL : ${url}\nHEADERS: `, body, `\nRESPONSE: `, response.data);
 };
-const GET = (_URL) => {
-  return instance.get(_URL).then((response) => {
-    logApi('GET', _URL, null, response);
-    return response;
-  });
+const GET = async (_URL) => {
+  const response = await instance.get(_URL);
+  logApi('GET', _URL, null, response);
+  return response;
 };
 
-const POST = (_URL, data = null) => {
-  return instance.post(_URL, data).then((response) => {
-    logApi('POST', _URL, data, response);
-    return response;
-  });
+const POST = async (_URL, data = null) => {
+  const response = await instance.post(_URL, data);
+  logApi('POST', _URL, data, response);
+  return response;
 };
 
 export { GET, POST };

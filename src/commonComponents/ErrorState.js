@@ -13,7 +13,7 @@ const ErrorState = (props) => {
   const { theme } = useContext(ThemeContext);
   return (
     <View style={styles.parentView}>
-      <MaterialIcons />
+      {/* <MaterialIcons /> */}
       <Text>{message}</Text>
     </View>
   );

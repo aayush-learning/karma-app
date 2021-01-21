@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { incrementOriginal } from '../../store/rootSaga';
 import { ThemeContext } from '../../modules/Theme/themeContext';
 import { Theme } from '../../modules/Theme/themeColors';
 import Settings from '../../modules/Theme/settings';
@@ -15,9 +14,8 @@ AppSettings.defaultProps = {};
 AppSettings.propTypes = {};
 
 const mapStateToProps = (state) => {
-  const { counter } = state;
-  return { counter };
+  return {};
 };
-const mapDispatchToProps = { incrementOriginal };
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppSettings);

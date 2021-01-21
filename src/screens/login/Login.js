@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { incrementOriginal } from '../../store/rootSaga';
 import { ThemeContext } from '../../modules/Theme/themeContext';
 import { Theme } from '../../modules/Theme/themeColors';
 
@@ -26,10 +25,9 @@ Login.propTypes = {
   }).isRequired,
 };
 
-// const mapStateToProps = (state) => {
-//   const { counter } = state;
-//   return { counter };
-// };
-// const mapDispatchToProps = { incrementOriginal };
+const mapStateToProps = (state) => {
+  return {};
+};
+const mapDispatchToProps = {};
 
 export default connect(null, null)(Login);

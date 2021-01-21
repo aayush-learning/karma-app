@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Modal, View, Text, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Picker } from '@react-native-picker/picker';
+import { connect } from 'react-redux';
 import color from '../../asset/Color/Color';
 import Width from '../../asset/Contants/Width';
 import Font from '../../asset/Font/Font';
 import { normalize } from '../../Utils/utils';
+import { showBuySellModal } from './redux/popularityIndex.actions';
 
-const BuyModal = ({ onRequestClose = () => {}, modalVisible = false, modelType = '' }) => {
+const BuyModal = ({ screenShow = '', showBuySellModal }) => {
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
   const [selectedValue, setSelectedValue] = useState('Market');
@@ -17,16 +19,23 @@ const BuyModal = ({ onRequestClose = () => {}, modalVisible = false, modelType =
   const onPriceChange = (val) => setPrice(val);
 
   const onBuyClicked = () => {
-    onRequestClose();
+    showBuySellModal(false);
   };
 
   const onCancelClicked = () => {
-    onRequestClose();
+    showBuySellModal(false);
   };
 
   return (
-    <Modal animationType="slide" transparent visible={modalVisible} onRequestClose={onRequestClose}>
-      <TouchableOpacity style={styles.modalContainer} onPress={() => onRequestClose()}>
+    <Modal
+      animationType="slide"
+      transparent
+      visible
+      onRequestClose={() => {
+        showBuySellModal(false);
+      }}
+    >
+      <TouchableOpacity style={styles.modalContainer} onPress={() => showBuySellModal(false)}>
         <TouchableWithoutFeedback>
           <View style={styles.modalBackGroundStyle}>
             <View style={{ flexDirection: 'row' }}>
@@ -100,7 +109,7 @@ const BuyModal = ({ onRequestClose = () => {}, modalVisible = false, modelType =
                 <Text style={styles.cancelBtnStyle}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={onBuyClicked} style={styles.buyButton}>
-                <Text style={styles.buyBtnStyles}>{modelType}</Text>
+                <Text style={styles.buyBtnStyles}>{screenShow}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -197,4 +206,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BuyModal;
+const mapDispatchToProps = { showBuySellModal };
+
+export default connect(null, mapDispatchToProps)(BuyModal);

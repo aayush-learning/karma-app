@@ -9,8 +9,8 @@ const ranks = [1, 2, 3, 4, 5, 6, 7];
 
 const LeaderBoardContests = (props) => {
   const { navigation, route } = props;
-  const onContestClick = (index) => {
-    navigation.push('LeaderBoardRankScreen');
+  const onContestClick = () => {
+    navigation.navigate('LeaderBoardRankScreen');
   };
   return (
     <View style={{ flex: 1, backgroundColor: Color.bgWhite }}>
@@ -24,7 +24,7 @@ const LeaderBoardContests = (props) => {
           bounces={false}
           renderItem={({ item, index }) => {
             return (
-              <TouchableOpacity activeOpacity={0.7} onPress={() => onContestClick(index)}>
+              <TouchableOpacity activeOpacity={0.7} onPress={onContestClick}>
                 <TournamentCards />
               </TouchableOpacity>
             );
@@ -40,7 +40,7 @@ LeaderBoardContests.defaultProps = {
 };
 LeaderBoardContests.propTypes = {
   navigation: PropTypes.shape({
-    push: PropTypes.func,
+    navigate: PropTypes.func,
   }).isRequired,
   route: PropTypes.shape({
     name: PropTypes.string,

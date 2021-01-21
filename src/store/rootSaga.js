@@ -1,19 +1,20 @@
-import { takeLatest, put, all } from 'redux-saga/effects';
-import { popularityIndexSagas } from '../screens/popularityIndex/sagas/sagas';
-// import sagaWatcher from '../screens/myProfile/sagas/saga';
+import { all } from 'redux-saga/effects';
+import { profileIndexSagas } from '../screens/myProfile/sagas/profile.sagas';
+import { getLeaderboardWatcherSagas } from '../screens/leaderBoard/sagas/leaderBoard.sagas';
+import { getFeedWatcherSagas } from '../screens/home/sagas/home.sagas';
+import { getProfileWatcherSagas } from '../screens/myProfile/sagas/myprofile.saga';
+import { getSearchResultWatcherSagas } from '../screens/search/sagas/search.saga';
+import { getTrendingResultWatcherSagas } from '../screens/trending/sagas/trending.saga';
+import { popularityIndexSagas } from '../screens/popularityIndex/sagas/popularityIndex.sagas';
 
 export default function* rootSaga() {
-  yield all([popularityIndexSagas()]);
+  yield all([
+    popularityIndexSagas(),
+    getLeaderboardWatcherSagas(),
+    getFeedWatcherSagas(),
+    profileIndexSagas(),
+    getProfileWatcherSagas(),
+    getSearchResultWatcherSagas(),
+    getTrendingResultWatcherSagas(),
+  ]);
 }
-
-/* function* sagaWorker() {
-  yield put({ type: 'increment' });
-}
-
-export function incrementOriginal() {
-  return { type: 'increment_saga' };
-}
-
-export function* sagaWatcher() {
-  yield takeLatest('increment_saga', sagaWorker);
-} */

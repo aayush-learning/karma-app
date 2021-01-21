@@ -36,4 +36,6 @@ const LeaderBoard = () => {
 
 LeaderBoard.propTypes = {};
 
+LeaderBoard.defaultProps = {};
+
 export default LeaderBoard;
